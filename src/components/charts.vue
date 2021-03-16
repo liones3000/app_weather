@@ -3,6 +3,10 @@ import { Line } from "vue-chartjs";
 export default {
   extends: Line,
   props: {
+    isRender: {
+      type: Boolean,
+      default: false
+    },
     chartData: {
       type: Object,
       default: () => ({})
@@ -12,8 +16,15 @@ export default {
       default: () => ({})
     }
   },
-  mounted() {
-    this.renderChart(this.chartData, this.options);
+  watch: {
+    isRender: "render"
+  },
+  methods: {
+    render(value) {
+      if (value) {
+        this.renderChart(this.chartData, this.options);
+      }
+    }
   }
 };
 </script>

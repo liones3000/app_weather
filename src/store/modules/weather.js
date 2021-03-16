@@ -111,6 +111,7 @@ const weatherStore = {
         });
         const cityId = Object.keys(getCities);
         setCookies("city", cityId);
+        return response;
       } catch (err) {
         console.log("fetchWeather:", err.response?.data.message || err);
       }

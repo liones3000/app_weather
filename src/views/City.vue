@@ -1,109 +1,124 @@
 <template>
   <div class="city">
     <ElLink @click="backtoPage" class="city__btn"> Back </ElLink>
-    <div class="city__header">
-      <div class="city__icon">
-        <img
-          class="city__img"
-          :src="fetchIcon"
-          :alt="checkCity.weather[0].main"
-        />
+    <template v-if="!isExist">
+      <p
+        v-loading.fullscreen.lock="isExist"
+        element-loading-text="Loading..."
+        element-loading-spinner="el-icon-loading"
+        element-loading-background="rgba(0, 0, 0, 0.8)"
+      ></p>
+    </template>
+    <template v-else>
+      <div class="city__header">
+        <div class="city__icon">
+          <img
+            class="city__img"
+            :src="fetchIcon"
+            :alt="weatherData.weather[0].main"
+          />
+        </div>
+        <div class="city__text">
+          <h2 class="city__title">
+            Город, страна: {{ weatherData.name }},
+            {{ weatherData.sys.country }}
+          </h2>
+          <p class="city__descr">
+            Погодные условия: {{ weatherData.weather[0].description }}
+          </p>
+        </div>
       </div>
-      <div class="city__text">
-        <h2 class="city__title">
-          Город, страна: {{ checkCity.name }},
-          {{ checkCity.sys.country }}
-        </h2>
-        <p class="city__descr">
-          Погодные условия: {{ checkCity.weather[0].description }}
-        </p>
-      </div>
-    </div>
-    <div class="city__info">
-      <table class="city__table table">
-        <tbody>
-          <tr class="table__row">
-            <th colspan="2" class="table__header">Подробнее</th>
-          </tr>
-          <tr class="table__row">
-            <td class="table__key">
-              Ощущается как
-            </td>
-            <td class="table__value">{{ checkCity.main.feels_like }}&#176;C</td>
-          </tr>
-          <tr class="table__row">
-            <td class="table__key">
-              Ветер
-            </td>
-            <td class="table__value">
-              {{ checkCity.wind.speed }} м/с, {{ checkCity.wind.deg }} &#176;
-            </td>
-          </tr>
-          <tr class="weather-right-card__items">
-            <td class="table__key">
-              Влажность
-            </td>
-            <td class="table__value">{{ checkCity.main.humidity }}%</td>
-          </tr>
-          <template v-if="!!checkCity.rain">
+      <div class="city__info">
+        <table class="city__table table">
+          <tbody>
+            <tr class="table__row">
+              <th colspan="2" class="table__header">Подробнее:</th>
+            </tr>
+            <tr class="table__row">
+              <td class="table__key">
+                Ощущается как
+              </td>
+              <td class="table__value">
+                {{ weatherData.main.feels_like }}&#176;C
+              </td>
+            </tr>
+            <tr class="table__row">
+              <td class="table__key">
+                Ветер
+              </td>
+              <td class="table__value">
+                {{ weatherData.wind.speed }} м/с,
+                {{ weatherData.wind.deg }} &#176;
+              </td>
+            </tr>
             <tr class="weather-right-card__items">
               <td class="table__key">
-                Дождь
+                Влажность
               </td>
-              <td class="table__value">{{ checkCity.rain["1h"] }} мм</td>
+              <td class="table__value">{{ weatherData.main.humidity }}%</td>
             </tr>
+            <template v-if="!!weatherData.rain">
+              <tr class="weather-right-card__items">
+                <td class="table__key">
+                  Дождь
+                </td>
+                <td class="table__value">{{ weatherData.rain["1h"] }} мм</td>
+              </tr>
+            </template>
+            <tr class="weather-right-card__items">
+              <td class="table__key">
+                Давление
+              </td>
+              <td class="table__value">{{ weatherData.main.pressure }} hPa</td>
+            </tr>
+            <tr class="weather-right-card__items">
+              <td class="table__key">
+                Видимость
+              </td>
+              <td class="table__value">{{ weatherData.visibility }} м.</td>
+            </tr>
+            <tr class="weather-right-card__items">
+              <td class="table__key">
+                Облачность
+              </td>
+              <td class="table__value">{{ weatherData.clouds.all }} %</td>
+            </tr>
+            <tr class="weather-right-card__items">
+              <td class="table__key">
+                Дата обновления
+              </td>
+              <td class="table__value">{{ updateData }}</td>
+            </tr>
+            <tr class="weather-right-card__items">
+              <td class="table__key">
+                Восход
+              </td>
+              <td class="table__value">
+                {{ sunTime(weatherData.sys.sunrise) }}
+              </td>
+            </tr>
+            <tr class="weather-right-card__items">
+              <td class="table__key">
+                Закат
+              </td>
+              <td class="table__value">
+                {{ sunTime(weatherData.sys.sunset) }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="city__charts">
+          <template v-if="!isExist"></template>
+          <template v-else>
+            <Charts
+              :chart-data="dataForCharts"
+              :options="optionsForCharts"
+              :is-render="isRenderCharts"
+            />
           </template>
-          <tr class="weather-right-card__items">
-            <td class="table__key">
-              Давление
-            </td>
-            <td class="table__value">{{ checkCity.main.pressure }} hPa</td>
-          </tr>
-          <tr class="weather-right-card__items">
-            <td class="table__key">
-              Видимость
-            </td>
-            <td class="table__value">{{ checkCity.visibility }} м.</td>
-          </tr>
-          <tr class="weather-right-card__items">
-            <td class="table__key">
-              Облачность
-            </td>
-            <td class="table__value">{{ checkCity.clouds.all }} %</td>
-          </tr>
-          <tr class="weather-right-card__items">
-            <td class="table__key">
-              Дата обновления
-            </td>
-            <td class="table__value">{{ updateData }}</td>
-          </tr>
-          <tr class="weather-right-card__items">
-            <td class="table__key">
-              Восход
-            </td>
-            <td class="table__value">
-              {{ sunTime(checkCity.sys.sunrise) }}
-            </td>
-          </tr>
-          <tr class="weather-right-card__items">
-            <td class="table__key">
-              Закат
-            </td>
-            <td class="table__value">
-              {{ sunTime(checkCity.sys.sunset) }}
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="city__charts">
-        <ElButton type="warning" size="medium" round @click="fetchHour">
-          Hourly forecast
-        </ElButton>
-        <template>
-          <Charts :chart-data="chartData" :options="options" />
-        </template>
+        </div>
       </div>
-    </div>
+    </template>
   </div>
 </template>
 
@@ -125,15 +140,21 @@ export default {
   components: {
     Charts
   },
-  mounted() {
-    this.checkCity;
+  watch: {
+    getCities: {
+      handler: "checkId",
+      deep: true,
+      immediate: true
+    }
   },
+  mounted() {},
   data: () => ({
+    isExistsID: "",
     chartData: {
       labels: [],
       datasets: [
         {
-          label: "Hourse",
+          label: "Часы",
           backgroundColor: "#f87979"
         }
       ]
@@ -145,9 +166,24 @@ export default {
   }),
   methods: {
     ...mapActions("weatherStore", ["fetchWeather"]),
+
+    // Кнопка вернуться назад по истории открытия страниц
     backtoPage() {
       window.history.length > 1 ? this.$router.go(-1) : this.$router.push("/");
     },
+
+    // Проверка на существование данных для отображения
+    checkId(value) {
+      if (!value[this.id]) {
+        this.isExistsID = false;
+        this.fetchWeather(this.id);
+        return;
+      }
+      this.isExistsID = true;
+      this.fetchHour();
+    },
+
+    // Изменение данных о времени восхода и заката для отображения в таблице
     sunTime(ms) {
       const date = new Date(ms * 1000);
       let hours = date
@@ -164,9 +200,11 @@ export default {
         .replace(/\b(\d{1})\b/g, "0$1");
       return `${hours}:${minutes}:${sec}`;
     },
+
+    // Запрос по имеющимся данным lat и lon для получения данных почасовой температуры.
     async fetchHour() {
-      const lat = this.checkCity.coord.lat;
-      const lon = this.checkCity.coord.lon;
+      const lat = this.weatherData.coord.lat;
+      const lon = this.weatherData.coord.lon;
       try {
         const response = await axios.get(`onecall`, {
           params: {
@@ -175,26 +213,29 @@ export default {
             exclude: "current,minutely,alerts"
           }
         });
+        // Создаем объект с ключом = время unix, и значением = температурой
         const result = await serializeHourlytemp(response.hourly);
 
+        //Получаем массив с данными времени для отображения в графике
         const dataLabels = Object.keys(result).reduce((acc, el) => {
           const newDate = new Date(Number(el) * 1000);
           const hours = newDate.getHours().toString();
           acc.push(hours);
           return acc;
         }, []);
-
+        // Получаем массив с данными температуры для отображения в графике
         const dataSets = Object.values(result).reduce((acc, el) => {
           acc.push(el);
           return acc;
         }, []);
-        console.log(dataSets);
 
+        // Записываем в data -> chartData -> labels массив с данными для оси X
         this.chartData.labels = dataLabels;
 
-        console.log(this.chartData);
-
+        // Записываем в data -> datasets -> data массив с данными для оси Y
         this.chartData.datasets[0].data = dataSets;
+
+        // передаем информацию о запуске рендера графика
       } catch (err) {
         console.log("fetchHour:", err);
         Promise.reject(err);
@@ -203,22 +244,26 @@ export default {
   },
   computed: {
     ...mapGetters("weatherStore", ["getCities", "getIconUrl"]),
-    checkCity() {
-      let data;
-      if (this.getCities[this.id]) {
-        data = this.getCities[this.id];
-        console.log(data);
-      } else {
-        this.fetchWeather(this.id);
-        data = this.getCities[this.id];
-      }
-      return data;
+
+    // Проверка на существование данных для показа
+    isExist() {
+      return this.isExistsID;
     },
+
+    // возвращает данные для отображения. Если в сторе нет данного города, делает запрос на данные и записывает в стору.
+    weatherData() {
+      return this.getCities[this.id];
+    },
+    // формирует ссылку для иконки
     fetchIcon() {
-      return `${this.getIconUrl}${this.checkCity.weather[0].icon}.png`;
+      if (!this.weatherData) return; // проверка на существование
+      return `${this.getIconUrl}${this.weatherData.weather[0].icon}.png`;
     },
+
+    // Изменение данных о последнем обновлении информации для отображения в таблице
     updateData() {
-      const date = new Date(this.checkCity.dt * 1000);
+      if (!this.weatherData) return; // проверка на существование
+      const date = new Date(this.weatherData.dt * 1000);
       let day = date
         .getDate()
         .toString()
@@ -240,6 +285,15 @@ export default {
         .replace(/\b(\d{1})\b/g, "0$1");
 
       return `${day}.${month}.${year}, ${hours}:${minutes}`;
+    },
+    dataForCharts() {
+      return this.chartData;
+    },
+    optionsForCharts() {
+      return this.options;
+    },
+    isRenderCharts() {
+      return this.chartData.labels.length > 10 ? true : false;
     }
   }
 };
@@ -257,11 +311,10 @@ export default {
   }
   &__info {
     margin: 0 auto;
-    // max-width: 400px;
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-evenly;
   }
   &__table {
     border-spacing: 15px 5px;

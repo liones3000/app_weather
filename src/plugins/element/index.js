@@ -16,7 +16,8 @@ import {
   Alert,
   Row,
   Col,
-  Link
+  Link,
+  Loading
 } from "element-ui";
 
 const elements = [
@@ -32,7 +33,8 @@ const elements = [
   Alert,
   Row,
   Col,
-  Link
+  Link,
+  Loading
 ];
 
 locale.use(lang);
