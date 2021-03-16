@@ -1,8 +1,7 @@
 import Vue from "vue";
 import axios from "@/plugins/axios";
 import mutations from "../mutations";
-import * as data from "../mock/city.list";
-// import "@/plugins/cookies";
+import * as data from "../mock/city.list.min";
 
 const dataList = data.default;
 

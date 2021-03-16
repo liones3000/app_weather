@@ -17,18 +17,11 @@ body {
   width: 100%;
   overflow: hidden;
   min-height: 100vh;
-  // background: rgb(0, 65, 106);
-  // background: linear-gradient(
-  //   90deg,
-  //   rgba(0, 65, 106, 0.8774860285911239) 0%,
-  //   rgba(228, 229, 230, 1) 100%
-  // );
 }
 #app {
   font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  // text-align: center;
   color: #2c3e50;
 }
 

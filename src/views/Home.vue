@@ -20,12 +20,6 @@ export default {
     CityList,
     SelectCities
   },
-  beforeMount() {
-    // this.fetchWeather();
-  },
-  methods: {
-    // ...mapActions("weatherStore", ["fetchWeather"])
-  },
   computed: {}
 };
 </script>
