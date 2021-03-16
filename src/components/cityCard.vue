@@ -245,6 +245,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    cursor: pointer;
   }
   &__text {
     text-align: left;
@@ -255,7 +256,6 @@ export default {
     font-size: 18px;
     line-height: 1.5;
     margin: 0;
-    cursor: pointer;
     &:hover {
       animation: shake-bottom 0.8s cubic-bezier(0.455, 0.03, 0.515, 0.955) both;
     }
