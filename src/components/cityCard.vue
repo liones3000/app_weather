@@ -85,6 +85,7 @@
         ></ElButton>
         <ElLink
           :underline="false"
+          class="card__link"
           type="warning"
           aria-label="link to more info"
           title="link to more info"
@@ -240,7 +241,6 @@ export default {
     }
   }
   &__header {
-    background-image: linear-gradient(to top left, #feb020, #ffd05c);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -289,6 +289,9 @@ export default {
     align-items: center;
     justify-content: space-between;
     font-weight: 600;
+  }
+  &__link {
+    font-size: 16px;
   }
 }
 .table {

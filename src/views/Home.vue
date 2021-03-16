@@ -66,9 +66,7 @@ export default {
   }
 }
 .city__list .show {
-  // transform: translateY(0);
   display: block;
-  // transition: transform 0.5s ease;
 }
 .el-select {
   width: 100%;
@@ -76,14 +74,18 @@ export default {
 .el-container {
   flex-wrap: wrap;
 }
-.city__card .el-card__header {
-  background: linear-gradient(to top left, #feb020, #ffd05c);
-  padding: 0 15px;
+
+.el-card {
+  &__body {
+    display: none;
+  }
+  &__header {
+    background: linear-gradient(to top left, #feb020, #ffd05c);
+    padding: 0 15px !important;
+  }
 }
-.el-card__body {
-  display: none;
-  // transform: translateY(-150%);
-  // transition: transform 0.5s ease;
-  // animation: slide-top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+.city__select .el-col {
+  margin-bottom: 10px;
+  text-align: center;
 }
 </style>

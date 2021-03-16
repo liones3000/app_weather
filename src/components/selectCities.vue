@@ -1,7 +1,7 @@
 <template>
   <div class="city__select">
-    <ElRow :gutter="20">
-      <ElCol :xs="6" :sm="6">
+    <ElRow :gutter="20" class="city__row">
+      <ElCol :xs="24" :sm="6" :md="6" :lg="4">
         <ElSelect
           v-model="selectCountry"
           placeholder="Choose country"
@@ -18,7 +18,7 @@
           ></ElOption>
         </ElSelect>
       </ElCol>
-      <ElCol :xs="16" :sm="16">
+      <ElCol :xs="24" :sm="16" :md="16" :lg="14">
         <ElSelect
           v-model="selectCity"
           :disabled="!isEmptyCountry"
@@ -35,7 +35,7 @@
           ></ElOption>
         </ElSelect>
       </ElCol>
-      <ElCol :xs="2" :sm="2">
+      <ElCol :xs="24" :sm="2" :md="2" :lg="2">
         <ElButton
           icon="el-icon-plus"
           type="success"
@@ -83,4 +83,15 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.city {
+  // &__row {
+  //   width: 100%;
+  //   display: flex;
+  //   justify-content: center;
+  //   @media (max-width: 767px) {
+  //     display: table;
+  //   }
+  // }
+}
+</style>

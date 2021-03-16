@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <nav id="nav">
-      <router-link to="/">Home</router-link>
+      <router-link to="/"> <i class="el-icon-s-home"></i> Home</router-link>
     </nav>
     <transition name="component-fade" mode="out-in">
       <router-view />
@@ -10,6 +10,20 @@
 </template>
 
 <style lang="scss">
+body {
+  margin: 0;
+}
+.wrap {
+  width: 100%;
+  overflow: hidden;
+  min-height: 100vh;
+  // background: rgb(0, 65, 106);
+  // background: linear-gradient(
+  //   90deg,
+  //   rgba(0, 65, 106, 0.8774860285911239) 0%,
+  //   rgba(228, 229, 230, 1) 100%
+  // );
+}
 #app {
   font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -20,14 +34,17 @@
 
 #app {
   max-width: 1368px;
+  padding: 0 10px;
   margin: 0 auto;
 }
 
 #nav {
   padding: 10px;
+  text-align: center;
 
   a {
     font-weight: bold;
+    text-decoration: none;
     color: #2c3e50;
 
     &.router-link-exact-active {

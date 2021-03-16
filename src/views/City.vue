@@ -1,6 +1,5 @@
 <template>
   <div class="city">
-    <ElLink @click="backtoPage" class="city__btn"> Back </ElLink>
     <template v-if="!isExist">
       <p
         v-loading.fullscreen.lock="isExist"
@@ -24,89 +23,103 @@
             {{ weatherData.sys.country }}
           </h2>
           <p class="city__descr">
-            Погодные условия: {{ weatherData.weather[0].description }}
+            <b>Погодные условия:</b> {{ weatherData.weather[0].description }}
           </p>
         </div>
       </div>
+
       <div class="city__info">
-        <table class="city__table table">
-          <tbody>
-            <tr class="table__row">
-              <th colspan="2" class="table__header">Подробнее:</th>
-            </tr>
-            <tr class="table__row">
-              <td class="table__key">
-                Ощущается как
-              </td>
-              <td class="table__value">
-                {{ weatherData.main.feels_like }}&#176;C
-              </td>
-            </tr>
-            <tr class="table__row">
-              <td class="table__key">
-                Ветер
-              </td>
-              <td class="table__value">
-                {{ weatherData.wind.speed }} м/с,
-                {{ weatherData.wind.deg }} &#176;
-              </td>
-            </tr>
-            <tr class="weather-right-card__items">
-              <td class="table__key">
-                Влажность
-              </td>
-              <td class="table__value">{{ weatherData.main.humidity }}%</td>
-            </tr>
-            <template v-if="!!weatherData.rain">
+        <div class="city__table">
+          <nav class="city__nav">
+            <ElLink
+              @click="backtoPage"
+              class="city__btn"
+              type="warning"
+              aria-label="link to go back"
+              ><i class="el-icon-back"></i> Назад
+            </ElLink>
+          </nav>
+          <table class="city__table table">
+            <tbody>
+              <tr class="table__row">
+                <th colspan="2" class="table__header">Информация</th>
+              </tr>
+              <tr class="table__row">
+                <td class="table__key">
+                  Ощущается как
+                </td>
+                <td class="table__value">
+                  {{ weatherData.main.feels_like }}&#176;C
+                </td>
+              </tr>
+              <tr class="table__row">
+                <td class="table__key">
+                  Ветер
+                </td>
+                <td class="table__value">
+                  {{ weatherData.wind.speed }} м/с,
+                  {{ weatherData.wind.deg }} &#176;
+                </td>
+              </tr>
               <tr class="weather-right-card__items">
                 <td class="table__key">
-                  Дождь
+                  Влажность
                 </td>
-                <td class="table__value">{{ weatherData.rain["1h"] }} мм</td>
+                <td class="table__value">{{ weatherData.main.humidity }}%</td>
               </tr>
-            </template>
-            <tr class="weather-right-card__items">
-              <td class="table__key">
-                Давление
-              </td>
-              <td class="table__value">{{ weatherData.main.pressure }} hPa</td>
-            </tr>
-            <tr class="weather-right-card__items">
-              <td class="table__key">
-                Видимость
-              </td>
-              <td class="table__value">{{ weatherData.visibility }} м.</td>
-            </tr>
-            <tr class="weather-right-card__items">
-              <td class="table__key">
-                Облачность
-              </td>
-              <td class="table__value">{{ weatherData.clouds.all }} %</td>
-            </tr>
-            <tr class="weather-right-card__items">
-              <td class="table__key">
-                Дата обновления
-              </td>
-              <td class="table__value">{{ updateData }}</td>
-            </tr>
-            <tr class="weather-right-card__items">
-              <td class="table__key">
-                Восход
-              </td>
-              <td class="table__value">
-                {{ sunTime(weatherData.sys.sunrise) }}
-              </td>
-            </tr>
-            <tr class="weather-right-card__items">
-              <td class="table__key">
-                Закат
-              </td>
-              <td class="table__value">
-                {{ sunTime(weatherData.sys.sunset) }}
-              </td>
-            </tr>
-          </tbody>
-        </table>
+              <template v-if="!!weatherData.rain">
+                <tr class="weather-right-card__items">
+                  <td class="table__key">
+                    Дождь
+                  </td>
+                  <td class="table__value">{{ weatherData.rain["1h"] }} мм</td>
+                </tr>
+              </template>
+              <tr class="weather-right-card__items">
+                <td class="table__key">
+                  Давление
+                </td>
+                <td class="table__value">
+                  {{ weatherData.main.pressure }} hPa
+                </td>
+              </tr>
+              <tr class="weather-right-card__items">
+                <td class="table__key">
+                  Видимость
+                </td>
+                <td class="table__value">{{ weatherData.visibility }} м.</td>
+              </tr>
+              <tr class="weather-right-card__items">
+                <td class="table__key">
+                  Облачность
+                </td>
+                <td class="table__value">{{ weatherData.clouds.all }} %</td>
+              </tr>
+              <tr class="weather-right-card__items">
+                <td class="table__key">
+                  Дата обновления
+                </td>
+                <td class="table__value">{{ updateData }}</td>
+              </tr>
+              <tr class="weather-right-card__items">
+                <td class="table__key">
+                  Восход
+                </td>
+                <td class="table__value">
+                  {{ sunTime(weatherData.sys.sunrise) }}
+                </td>
+              </tr>
+              <tr class="weather-right-card__items">
+                <td class="table__key">
+                  Закат
+                </td>
+                <td class="table__value">
+                  {{ sunTime(weatherData.sys.sunset) }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
         <div class="city__charts">
           <template v-if="!isExist"></template>
           <template v-else>
@@ -305,9 +318,26 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-around;
-    max-width: 40%;
     margin: 0 auto;
     padding: 10px 15px;
+    @media (max-width: 400px) {
+      flex-direction: column;
+    }
+  }
+  &__text {
+    flex-shrink: 0;
+  }
+  &__title {
+    font-size: 16px;
+    padding: 5px 5px;
+    margin: 0;
+  }
+  &__descr {
+    margin: 0;
+    padding: 5px 5px;
+  }
+  &__img {
+    width: 100%;
   }
   &__info {
     margin: 0 auto;
@@ -315,13 +345,32 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-evenly;
+    @media (max-width: 768px) {
+      flex-direction: column;
+    }
   }
   &__table {
     border-spacing: 15px 5px;
     text-align: left;
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+  &__charts {
+    width: 100%;
+    overflow-y: auto;
+    max-width: 500px;
   }
   &__btn {
-    font-size: 1.25em;
+    font-size: inherit;
+  }
+  &__nav {
+    text-align: center;
+    padding: 15px 5px;
+  }
+}
+.table {
+  &__value {
+    font-weight: bold;
   }
 }
 </style>
