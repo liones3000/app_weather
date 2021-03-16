@@ -1,11 +1,18 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import weatherStore from "./modules/weather";
 
 Vue.use(Vuex);
 
-export default new Vuex.Store({
+const store = new Vuex.Store({
   state: {},
   mutations: {},
   actions: {},
-  modules: {}
+  modules: {
+    weatherStore
+  }
 });
+
+store.dispatch("initCountryList");
+
+export default store;
