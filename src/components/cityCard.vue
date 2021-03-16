@@ -126,9 +126,10 @@ export default {
       this.$emit("removeCity", id);
     },
     showDetails(e) {
-      if (!e.target.classList.contains("card__title")) {
+      if (!e.target.closest(".el-card__header")) {
         return;
       }
+
       const header = e.target.closest(".el-card__header");
       const body = header.nextElementSibling;
       body.classList.toggle("show");

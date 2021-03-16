@@ -4,7 +4,7 @@
       <ElCol :xs="24" :sm="6" :md="6" :lg="4">
         <ElSelect
           v-model="selectCountry"
-          placeholder="Choose country"
+          placeholder="Выберите код страны"
           no-match-text="false"
           filterable
           default-first-option
@@ -22,7 +22,7 @@
         <ElSelect
           v-model="selectCity"
           :disabled="!isEmptyCountry"
-          placeholder="Choose city"
+          placeholder="Выберите город"
           filterable
           default-first-option
         >
